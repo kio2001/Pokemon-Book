@@ -15,8 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { teal } from "@mui/material/colors";
+
+import { grey, teal } from "@mui/material/colors";
 import LockIcon from "@mui/icons-material/Lock";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 export const Login = () => {
   return (
     <Grid
@@ -39,7 +41,7 @@ export const Login = () => {
             mb: "30px",
             mr: "auto",
             ml: "auto",
-            bgcolor: teal[500],
+            bgcolor: grey[500],
           }}
         >
           <LockIcon />
@@ -47,7 +49,7 @@ export const Login = () => {
         <Typography
           sx={{
             mb: "20px",
-            pl: "106px"
+            pl: "106px",
           }}
           variant="h5"
           component="h2"
@@ -58,25 +60,28 @@ export const Login = () => {
         <TextField
           type="username"
           label="username"
-          variant="standard"
-          fullWidth
-          required
-          />
-        <TextField
-          type="password"
-          label="Password"
-          variant="standard"
+          variant="outlined"
           fullWidth
           required
         />
-        <Button 
-        sx={{
-          m : "20px auto",
-          pl : "110px"
-        }}
-        variant="text" href="#contained-buttons">
-          ログイン
-        </Button>
+        <TextField
+          type="password"
+          label="Password"
+          variant="outlined"
+          fullWidth
+          required
+        ><VisibilityOffIcon/></TextField>
+        <Grid item xs={8}>
+          <Button
+            sx={{
+              m: "20px auto",
+            }}
+            variant="contained"
+            href="#contained-buttons"
+          >
+            ログイン
+          </Button>
+        </Grid>
       </Paper>
     </Grid>
   );
