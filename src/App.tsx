@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { DonutLarge } from "@mui/icons-material";
-
+import { Abc, DonutLarge } from "@mui/icons-material";
+import "./styles/api.module.css";
 const url =
   "https://developers-api-aizuwakamatsu-p-mylocal.jp/mgmt/trip/spotlist/v1";
 
 const App: React.FC = () => {
   const [status, setStatus] = useState([]);
-  
+  // const [sum, setSum] = useState([]);
   const apiFunc = () => {
     console.log("test");
-    
+
     const req = url + "?langCode=ja_JP&sortType=1&pageNo=1";
     axios
       .get(req, {
@@ -22,17 +22,25 @@ const App: React.FC = () => {
         },
       })
       .then((res) => {
-        // console.log(res.data.spotList);
+        console.log(res.data.spotList);
         //スポットリストのspotNameを配列に格納し、HTMLに表示(forとか使ってリスト表示する)
         // spotname summary
         // spotname summary
         // for (let i = 0; i < res.data.spotList.length; i++) {
-          // const addStatus = () => {
-          let spotList = res.data.spotList
-          setStatus(spotList.map(abc =>
-          abc.spotName));
-          
-           console.log(status);
+        // const addStatus = () => {
+        // let spotList = res.data.spotList
+
+        setStatus(
+          res.data.spotList.map(
+            (abc: any) =>
+              `${abc.spotName}
+           　　${abc.summary}`
+          )
+        );
+        // setSum(res.data.spotList.map((abc : any) =>
+        //  abc.summary));
+
+        console.log(status);
       })
       .catch((err) => {
         console.log("err", err);
@@ -54,11 +62,10 @@ const App: React.FC = () => {
       </Button>
 
       <div>
-        <ul>
-          
-          {
-            status?.map(post => <li>{post}</li>)
-          }
+        <ul className="css.api-ul">
+          {status?.map((post) => (
+            <li>{post}</li>
+          ))}
         </ul>
       </div>
     </div>
