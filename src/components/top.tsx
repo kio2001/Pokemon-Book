@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import "./styles/api.module.css";
@@ -8,8 +8,8 @@ const url =
   "https://developers-api-aizuwakamatsu-p-mylocal.jp/mgmt/trip/spotlist/v1";
 
 const Top = () => {
-  const [status, setStatus] = useState([]);
-  const [detail, setDetail] = useState([]);
+  const [status, setStatus] = useState<string[]>([]);
+
 
   // const [sum, setSum] = useState([]);
   const apiFunc = () => {
@@ -24,26 +24,23 @@ const Top = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.spotList);
-        //スポットリストのspotNameを配列に格納し、HTMLに表示(forとか使ってリスト表示する)
-        // spotname summary
-        // spotname summary
-        // for (let i = 0; i < res.data.spotList.length; i++) {
-        // const addStatus = () => {
-        // let spotList = res.data.spotList
-
-        setStatus(res.data.spotList.map((abc : any) => `${abc.spotName}`));
-        // setSum(res.data.spotList.map((abc : any) =>
-        //  abc.summary));
-        setDetail(res.data.spotList.map((xyz : any) => `${xyz.spotId}`));
-        // console.log(detail);
-        console.log(status);
-        console.log(detail);
+        // res.data.spotlist.map((item: any) => {
+        //   setStatus([...status, item.status]);
+        // });
+        let datas = new Array();
+        res.data.spotList.forEach((spot: any) => {
+          datas.push(spot);
+        });
+        setStatus(datas);
       })
       .catch((err) => {
         console.log("err", err);
       });
+     
   };
+  useEffect(() => {
+    console.log("useEffect", status);
+  }, [status]);
 
   return (
     <div>
@@ -78,15 +75,13 @@ const Top = () => {
       >
         <div>
           <ul className="css.api-ul">
-            {status?.map((post) => (
+          {status?.map((post: any) => (
               <li>
-                <Link
-                  to={`/detail?langCode=ja_JP&spotId=${detail}`}
-                >
-                  {post}
+                <Link to={`/detail?langCode=ja_JP&spotId=${post.spotId}`}>
+                  {post.spotName}
                 </Link>
               </li>
-            ))}
+              ))}
           </ul>
         </div>
       </Box>
