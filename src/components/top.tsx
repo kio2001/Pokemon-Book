@@ -1,15 +1,15 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import "./styles/api.module.css";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
+import Grid from "@mui/material/Grid";
 const url =
   "https://developers-api-aizuwakamatsu-p-mylocal.jp/mgmt/trip/spotlist/v1";
 
 const Top = () => {
   const [status, setStatus] = useState<string[]>([]);
-
 
   // const [sum, setSum] = useState([]);
   const apiFunc = () => {
@@ -36,7 +36,6 @@ const Top = () => {
       .catch((err) => {
         console.log("err", err);
       });
-     
   };
   useEffect(() => {
     console.log("useEffect", status);
@@ -47,7 +46,7 @@ const Top = () => {
       <h2>観光システム・トップ</h2>
 
       <Button
-        onClick={apiFunc}
+        onClick={() => apiFunc()}
         variant="contained"
         sx={{
           color: "#444444",
@@ -68,21 +67,33 @@ const Top = () => {
           p: 1,
           border: "1px dashed grey",
           width: 500,
-          height: 300,
+          height: 500,
           m: 10,
           backgroundColor: "#DDDDDD",
         }}
       >
-        <div>
-          <ul className="css.api-ul">
-          {status?.map((post: any) => (
-              <li>
-                <Link to={`/detail?langCode=ja_JP&spotId=${post.spotId}`}>
+        <div className="css.AAA">
+          <Grid container>
+            <Grid item>
+              {status?.map((post: any) => (
+                <Button
+                  variant="text"
+                  href={`/detail?langCode=ja_JP&spotId=${post.spotId}`}
+                  sx={{
+                    color: "#444444",
+                    backgroundColor: "#DDDDDD",
+                    "&:hover": {
+                      backgroundColor: "#EEEEEE",
+                    },
+                    width: 300,
+                    float:"left"
+                  }}
+                >
                   {post.spotName}
-                </Link>
-              </li>
+                </Button>
               ))}
-          </ul>
+            </Grid>
+          </Grid>
         </div>
       </Box>
     </div>
